@@ -54,3 +54,38 @@ python main.py
 - [ ] Интеграция динамической подгрузки рабочих листов с GitHub Pages.
 - [ ] Синхронизация разрушения и установки блоков между игроками.
 - [ ] Добавление глобального чата.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+![Secret EasterEgg](https://img.shields.io/badge/Easter_Egg-Cave_404_Active-blueviolet?style=for-the-badge&logo=ghost)
+
+
+
+
+
+
+<p>
+
+
+![boost](https://img.shields.io/badge/-NialCraft-4CAF50?style=portal&logo=minecraft)
