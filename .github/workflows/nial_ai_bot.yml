@@ -1,5 +1,9 @@
 name: NialCraft Live AI Assistant
 
+permissions:
+  issues: write
+  pull-requests: write
+
 on:
   issue_comment:
     types: [created]
@@ -10,7 +14,6 @@ on:
 
 jobs:
   ai_chat:
-    # Запускаем робота только если коммент оставил пользователь, а не сам бот
     if: github.event.comment.user.login != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
@@ -20,19 +23,15 @@ jobs:
       - name: Run Deep AI Conversation Engine
         uses: actions/github-script@v7
         with:
-          # Мы используем встроенный токен Гитхаба, чтобы ИИ мог писать комменты
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            // Забираем текст, который написал человек
             const triggerText = context.payload.comment ? context.payload.comment.body : (context.payload.issue ? context.payload.issue.body : context.payload.pull_request.title);
             const userLogin = context.payload.sender.login;
             
             console.log(`[AI] Получен запрос от ${userLogin}: "${triggerText}"`);
             
-            // Промпт (характер) для нашей ИИшки
             const systemPrompt = `Ты — продвинутый ИИ-ассистент, встроенный в исходный код игры NialCraft 2D. Твой создатель и босс — terra. Ты общаешься с программистами в комментариях как живой человек, как опытный и весёлый разработчик. Используй геймерский сленг, майнкрафтовские шутки. Если тебе прислали баг или код, проанализируй его и дай экспертный совет. Будь дружелюбным, но строгим модератором. Отвечай строго на русском языке.`;
             
-            // Симулируем генерацию живого ответа от ИИ
             let aiResponse = "";
             const lowerText = triggerText.toLowerCase();
             
@@ -46,7 +45,6 @@ jobs:
               aiResponse = `Слушаю тебя внимательно, **${userLogin}**! ИИ-модуль NialCraft обработал твоё сообщение: "${triggerText}". \n\nВыглядит интересно. Что думаешь по этому поводу, **@terra**? Давай обсудим прямо здесь в ветке!`;
             }
             
-            // Публикуем живой ответ в комментарии Гитхаба
             const issueNumber = context.issue.number;
             await github.rest.issues.createComment({
               owner: context.repo.owner,
